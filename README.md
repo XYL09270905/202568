@@ -1,24 +1,23 @@
 # 202568
 寻找两个正序数组的中位数
-答案
  
 #include <vector>
+
 using namespace std;
 
 double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+
     int m = nums1.size(), n = nums2.size();
     if (m > n) return findMedianSortedArrays(nums2, nums1); // 保证nums1更短，减少计算量
     int left = 0, right = m, half = (m + n + 1) / 2; // half为划分后左半部分总长度
     while (left <= right) {
         int i = (left + right) / 2; // nums1的分割点
         int j = half - i; // nums2的分割点
-        
-        // 处理越界情况（用INT_MIN/MAX模拟）
+        //处理越界情况（用INT_MIN/MAX模拟）
         int nums1Left = (i == 0) ? INT_MIN : nums1[i-1];
         int nums1Right = (i == m) ? INT_MAX : nums1[i];
         int nums2Left = (j == 0) ? INT_MIN : nums2[j-1];
         int nums2Right = (j == n) ? INT_MAX : nums2[j];
-        
         if (nums1Left <= nums2Right && nums2Left <= nums1Right) { // 找到合法分割
             if ((m + n) % 2 == 0) { // 偶数长度，取左右最小值的平均
                 return (max(nums1Left, nums2Left) + min(nums1Right, nums2Right)) / 2.0;
